@@ -141,14 +141,3 @@ If CUDA errors occur, ensure you have the correct NVIDIA drivers installed.
 
 If Tkinter GUI doesn’t launch, ensure your Python installation includes Tkinter.
 
-
-
----
-
-6. License & Contribution
-
-This project is licensed under the MIT License.
-Feel free to contribute by submitting pull requests or reporting issues.
-
-Happy coding! 🚀
-
