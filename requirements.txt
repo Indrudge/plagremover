@@ -1,0 +1,10 @@
+ollama
+nltk
+sentence-transformers
+pymongo
+tk
+requests
+beautifulsoup4
+python-docx
+googlesearch-python
+certifi
