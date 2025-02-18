@@ -1,5 +1,6 @@
 ollama
 nltk
+torch
 sentence-transformers
 pymongo
 tk

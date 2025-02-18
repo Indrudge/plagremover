@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-import ollama
 import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
@@ -9,8 +8,8 @@ import time
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["plagir"]
-websave_collection = db["websave"]  # Separate collection for scraped data
-key_topics_collection = db["web_results"]  # Storing key topics separately
+websave_collection = db["websave"]  # Collection for scraped data
+key_topics_collection = db["web_results"]  # Collection for key topics
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
@@ -32,13 +31,13 @@ def search_web(query, num_results=5):
         return []
 
 def extract_text_from_url(url):
-    """Extract main content from a webpage with improved error handling and retries."""
+    """Extract main content from a webpage with retries."""
     headers = {"User-Agent": random.choice(USER_AGENTS)}
 
     for attempt in range(3):  # Retry up to 3 times
         try:
             response = requests.get(url, headers=headers, timeout=10, verify=False)
-            response.raise_for_status()  # Raise error for 4xx/5xx status codes
+            response.raise_for_status()  
             
             soup = BeautifulSoup(response.text, "html.parser")
             paragraphs = soup.find_all("p")
@@ -46,14 +45,14 @@ def extract_text_from_url(url):
             content = "\n".join(p.get_text() for p in paragraphs if p.get_text())
 
             if len(content) > 100:
-                return content  # Return if content is meaningful
+                return content  
             else:
                 print(f"⚠️ Skipped {url} (Insufficient content)")
                 return None
 
         except requests.exceptions.RequestException as e:
             print(f"⚠️ Attempt {attempt+1} failed for {url}: {e}")
-            time.sleep(2)  # Wait before retrying
+            time.sleep(2)  
 
     print(f"❌ Giving up on {url} after multiple failures")
     return None
@@ -63,9 +62,8 @@ def fetch_and_store_web_results():
     topics = fetch_key_topics()
     
     if not topics:
-        print("⚠️ No key topics found in the database.")
-        return
-    
+        return "⚠️ No key topics found in the database."
+
     print("🔍 Searching the web for:", topics)
     web_data = []
 
@@ -78,10 +76,7 @@ def fetch_and_store_web_results():
                 web_data.append({"topic": topic, "url": url, "content": content})
 
     if web_data:
-        websave_collection.insert_many(web_data)  # Store in `websave`
-        print("✅ Web search results stored in MongoDB (websave collection).")
-    else:
-        print("⚠️ No relevant content found.")
-
-if __name__ == "__main__":
-    fetch_and_store_web_results()
+        websave_collection.insert_many(web_data)  
+        return "✅ Web search results stored in MongoDB (websave collection)."
+    
+    return "⚠️ No relevant content found."

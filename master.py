@@ -1,139 +1,147 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, scrolledtext
-import os
-from config import process_plagiarism_check, process_plagiarism_removal, process_ai_detection
+from tkinter import filedialog, scrolledtext, messagebox, ttk
+import threading
+import file_reader
+import document_analyzer
+import web_search
+import plagiarism_checker
+import ai_checker
+import plagiarism_remover
 from pymongo import MongoClient
 
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["plagir"]
 
-### GUI APPLICATION ###
-class PlagiarismCheckerApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("📌 Plagiarism & AI Content Detection")
-        self.root.geometry("800x600")
-        self.root.configure(bg="#f4f4f4")
+# GUI Setup
+root = tk.Tk()
+root.title("Plagiarism Remover")
+root.geometry("800x600")
 
-        # 📌 TEXT INPUT SECTION
-        self.text_input = scrolledtext.ScrolledText(root, width=90, height=10, wrap=tk.WORD)
-        self.text_input.pack(pady=10)
+# Global flag for canceling process
+cancel_process = False
 
-        self.upload_button = tk.Button(root, text="📂 Upload File", command=self.upload_file, bg="#008CBA", fg="white", font=("Arial", 10, "bold"))
-        self.upload_button.pack(pady=5)
+def select_file():
+    file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("Word Documents", "*.docx")])
+    if file_path:
+        entry_file_path.delete(0, tk.END)
+        entry_file_path.insert(0, file_path)
 
-        # 🔧 FEATURE BUTTONS
-        self.buttons_frame = tk.Frame(root, bg="#f4f4f4")
-        self.buttons_frame.pack(pady=10)
+def log_message(message):
+    text_output.insert(tk.END, message + "\n")
+    text_output.yview(tk.END)
 
-        self.plag_check_btn = tk.Button(self.buttons_frame, text="🔍 Check Plagiarism", command=self.check_plagiarism, bg="#4CAF50", fg="white", font=("Arial", 10, "bold"), width=20)
-        self.plag_check_btn.grid(row=0, column=0, padx=5, pady=5)
+def process_pipeline():
+    global cancel_process
+    cancel_process = False
+    progress_bar.start()
 
-        self.plag_remove_btn = tk.Button(self.buttons_frame, text="♻ Remove Plagiarism", command=self.remove_plagiarism, bg="#FF9800", fg="white", font=("Arial", 10, "bold"), width=20)
-        self.plag_remove_btn.grid(row=0, column=1, padx=5, pady=5)
-
-        self.ai_detect_btn = tk.Button(self.buttons_frame, text="🤖 AI Content Detection", command=self.detect_ai_content, bg="#E91E63", fg="white", font=("Arial", 10, "bold"), width=20)
-        self.ai_detect_btn.grid(row=0, column=2, padx=5, pady=5)
-
-        # 📊 RESULTS DISPLAY
-        self.results_label = tk.Label(root, text="📊 Results:", font=("Arial", 12, "bold"), bg="#f4f4f4")
-        self.results_label.pack(pady=5)
-
-        self.results_box = scrolledtext.ScrolledText(root, width=90, height=10, wrap=tk.WORD)
-        self.results_box.pack(pady=5)
-
-        # 📂 VIEW PREVIOUS REPORTS
-        self.history_label = tk.Label(root, text="📂 View Previous Reports:", font=("Arial", 12, "bold"), bg="#f4f4f4")
-        self.history_label.pack(pady=5)
-
-        self.report_dropdown = tk.StringVar(root)
-        self.report_dropdown_menu = tk.OptionMenu(root, self.report_dropdown, *self.get_previous_reports())
-        self.report_dropdown_menu.pack(pady=5)
-
-        self.view_report_btn = tk.Button(root, text="🔎 View Report", command=self.view_report, bg="#3F51B5", fg="white", font=("Arial", 10, "bold"))
-        self.view_report_btn.pack(pady=5)
-
-    ### 📂 FILE UPLOAD FUNCTION ###
-    def upload_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
-        if file_path:
-            with open(file_path, "r", encoding="utf-8") as file:
-                content = file.read()
-                self.text_input.delete("1.0", tk.END)
-                self.text_input.insert(tk.END, content)
-
-    ### 🔍 PLAGIARISM CHECK FUNCTION ###
-    def check_plagiarism(self):
-        input_text = self.text_input.get("1.0", tk.END).strip()
-        if not input_text:
-            messagebox.showerror("Error", "Please enter text or upload a file.")
+    def run_pipeline():
+        global cancel_process
+        file_path = entry_file_path.get().strip()
+        
+        if not file_path:
+            messagebox.showerror("Error", "Please select a file first!")
+            progress_bar.stop()
             return
-
-        self.results_box.delete("1.0", tk.END)
-        self.results_box.insert(tk.END, "🔍 Checking for plagiarism...\n")
-        self.root.update()
-
-        plagiarism_percentage, matches = process_plagiarism_check(input_text)
-        self.results_box.insert(tk.END, f"\n🚨 Plagiarism Detected: {plagiarism_percentage:.2f}%\n")
-        for match in matches:
-            self.results_box.insert(tk.END, f"\n🔗 Matched: {match['match']}\n")
-
-    ### ♻ REMOVE PLAGIARISM FUNCTION ###
-    def remove_plagiarism(self):
-        input_text = self.text_input.get("1.0", tk.END).strip()
-        if not input_text:
-            messagebox.showerror("Error", "Please enter text or upload a file.")
+        
+        log_message("\n📌 Step 1: Processing the file...")
+        file_result = file_reader.process_file(file_path)
+        log_message(file_result)
+        
+        if cancel_process:
+            log_message("❌ Process canceled.")
+            progress_bar.stop()
             return
+        
+        if "✅" in file_result:
+            log_message("\n📌 Step 2: Analyzing document...")
+            analysis_result = document_analyzer.process_document()
+            log_message(analysis_result)
+            
+            if cancel_process:
+                log_message("❌ Process canceled.")
+                progress_bar.stop()
+                return
+            
+            if "✅" in analysis_result:
+                log_message("\n📌 Step 3: Performing web search...")
+                web_result = web_search.fetch_and_store_web_results()
+                log_message(web_result)
+                
+                if cancel_process:
+                    log_message("❌ Process canceled.")
+                    progress_bar.stop()
+                    return
+                
+                if "✅" in web_result:
+                    log_message("\n📌 Step 4: Checking for plagiarism...")
+                    plagiarism_result = plagiarism_checker.process_plagiarism_check()
+                    log_message(plagiarism_result)
+                    
+                    log_message("\n📌 Step 5: Checking for AI-generated content...")
+                    ai_result = ai_checker.process_ai_detection()
+                    log_message(ai_result)
+                    
+                    if cancel_process:
+                        log_message("❌ Process canceled.")
+                        progress_bar.stop()
+                        return
+                    
+                    user_input = messagebox.askyesno("Plagiarism Detected", 
+                        f"Plagiarism: {plagiarism_result}% | AI Content: {ai_result}%\nDo you want to remove plagiarism?")
+                    
+                    if user_input:
+                        log_message("\n📌 Step 6: Removing plagiarism...")
+                        plagiarism_removed = plagiarism_remover.process_plagiarism_removal()
+                        log_message(plagiarism_removed)
+                    else:
+                        log_message("📌 Plagiarism removal skipped.")
+        
+        progress_bar.stop()
+        log_message("✔️ Process completed successfully!")
+    
+    threading.Thread(target=run_pipeline, daemon=True).start()
 
-        self.results_box.delete("1.0", tk.END)
-        self.results_box.insert(tk.END, "♻ Removing plagiarism...\n")
-        self.root.update()
+def cancel_pipeline():
+    global cancel_process
+    cancel_process = True
+    log_message("⚠️ Canceling process...")
 
-        rewritten_text = process_plagiarism_removal(input_text)
-        self.results_box.insert(tk.END, "\n✅ Plagiarism Removed! Rewritten Text:\n")
-        self.results_box.insert(tk.END, f"\n{rewritten_text}\n")
+def show_rewritten_content():
+    log_message("\n📌 Fetching rewritten content...")
+    result = db["plagrem"].find_one()
+    
+    if result and "rewritten_content" in result:
+        text_output.insert(tk.END, "\n📜 Rewritten Content:\n" + result["rewritten_content"] + "\n")
+    else:
+        text_output.insert(tk.END, "\n❌ No rewritten content found!\n")
 
-    ### 🤖 AI CONTENT DETECTION FUNCTION ###
-    def detect_ai_content(self):
-        input_text = self.text_input.get("1.0", tk.END).strip()
-        if not input_text:
-            messagebox.showerror("Error", "Please enter text or upload a file.")
-            return
+def reset_database():
+    collections = ["algenrel", "documents", "plagiarism_reports", "plagrem", "web_results"]
+    for collection in collections:
+        db[collection].delete_many({})
+    
+    messagebox.showinfo("Reset", "Database cleared successfully!")
+    log_message("\n🗑️ All collections cleared. Ready for a new check.")
 
-        self.results_box.delete("1.0", tk.END)
-        self.results_box.insert(tk.END, "🤖 Detecting AI-generated content...\n")
-        self.root.update()
+frame = tk.Frame(root)
+frame.pack(pady=20)
 
-        ai_percentage, analysis_results = process_ai_detection(input_text)
-        self.results_box.insert(tk.END, f"\n🚨 AI-Generated Content: {ai_percentage:.2f}%\n")
-        for result in analysis_results:
-            self.results_box.insert(tk.END, f"\n📌 {result['sentence']} - {result['ai_score']}% AI-generated\n")
+tk.Label(frame, text="Select File:").grid(row=0, column=0, padx=10)
+entry_file_path = tk.Entry(frame, width=50)
+entry_file_path.grid(row=0, column=1, padx=10)
+tk.Button(frame, text="Browse", command=select_file).grid(row=0, column=2)
 
-    ### 📂 FETCH PREVIOUS REPORTS ###
-    def get_previous_reports(self):
-        reports = db["plagiarism_reports"].find({}, {"timestamp": 1})
-        return [str(report["timestamp"]) for report in reports]
+tk.Button(root, text="Start Process", command=process_pipeline, bg="lightgreen").pack(pady=5)
+tk.Button(root, text="Cancel Process", command=cancel_pipeline, bg="orange").pack(pady=5)
+tk.Button(root, text="Show Rewritten Content", command=show_rewritten_content, bg="lightblue").pack(pady=5)
+tk.Button(root, text="Reset Database", command=reset_database, bg="red", fg="white").pack(pady=5)
 
-    ### 🔎 VIEW PREVIOUS REPORT ###
-    def view_report(self):
-        selected_report = self.report_dropdown.get()
-        if not selected_report:
-            messagebox.showerror("Error", "Please select a report.")
-            return
+progress_bar = ttk.Progressbar(root, mode='indeterminate', length=300)
+progress_bar.pack(pady=10)
 
-        report_data = db["plagiarism_reports"].find_one({"timestamp": selected_report})
-        if report_data:
-            self.results_box.delete("1.0", tk.END)
-            self.results_box.insert(tk.END, f"📊 Report from {selected_report}:\n")
-            self.results_box.insert(tk.END, f"\n🚨 Plagiarism Detected: {report_data['plagiarism_percentage']}%\n")
-            for match in report_data["matches"]:
-                self.results_box.insert(tk.END, f"\n🔗 Matched: {match['match']}\n")
-        else:
-            messagebox.showerror("Error", "Report not found.")
+text_output = scrolledtext.ScrolledText(root, height=20, width=90)
+text_output.pack(pady=10)
 
-### 🏁 RUN APPLICATION ###
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = PlagiarismCheckerApp(root)
-    root.mainloop()
+root.mainloop()

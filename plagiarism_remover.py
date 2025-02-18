@@ -7,8 +7,7 @@ from sentence_transformers import SentenceTransformer, util
 from datetime import datetime
 
 # Ensure NLTK resources are available
-nltk.download('punkt')
-nltk.download('punkt_tab')
+
 
 # Load sentence transformer model for similarity check
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -123,6 +122,8 @@ def process_plagiarism_removal():
 
     return rewritten_text
 
-# Example Usage
-if __name__ == "__main__":
-    process_plagiarism_removal()
+def should_run_plagiarism_removal(plagiarism_percentage, ai_percentage):
+    """
+    Determines if plagiarism removal should run based on thresholds.
+    """
+    return plagiarism_percentage > 10 or ai_percentage > 25
