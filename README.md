@@ -1,161 +1,127 @@
-🛡️ Plagiarism Remover & AI Content Detector
+# 🛡️ Plagiarism Remover & AI Content Detector
 
-     
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)
+![LLM](https://img.shields.io/badge/LLM-Mistral--7B-purple?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green?style=for-the-badge&logo=mongodb)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-> A fully local, privacy-focused plagiarism removal and AI content detection system powered by Large Language Models.
-
-
-
-
----
-
-✨ Overview
-
-Plagiarism Remover & AI Content Detector is an advanced desktop application designed to help users:
-
-Detect sentence-level plagiarism
-
-Rewrite and paraphrase content intelligently
-
-Identify AI-generated text
-
-Maintain academic integrity and originality
-
-
-Built using Mistral-7B, Sentence-BERT, MongoDB, and Tkinter, the system runs completely offline, ensuring full data privacy and control.
-
+> **A fully local, privacy-focused plagiarism removal and AI content detection system powered by Large Language Models.**
 
 ---
 
-🎯 Why This Project?
+## ✨ Overview
 
-✔ No cloud APIs
-✔ No data leakage
-✔ High-accuracy semantic detection
-✔ Research-oriented & academic-friendly
-✔ Ideal for students, researchers, and content creators
+**Plagiarism Remover & AI Content Detector** is an advanced desktop application designed to help users:
 
+- Detect **sentence-level plagiarism**
+- **Rewrite and paraphrase** content intelligently
+- Identify **AI-generated text**
+- Maintain **academic integrity and originality**
 
----
-
-🚀 Features
-
-🔍 Plagiarism Detection
-
-Sentence-level plagiarism analysis using SBERT embeddings
-
-Web search integration for reference retrieval
-
-Cosine similarity–based matching
-
-Configurable similarity thresholds
-
-Accurate plagiarism percentage calculation
-
-Highlighted matched content
-
-
+The system integrates **Mistral-7B**, **Sentence-BERT**, **MongoDB**, and **Tkinter**, and runs entirely **offline**, ensuring complete data privacy.
 
 ---
 
-✍️ Plagiarism Removal (Paraphrasing)
+## 🎯 Why This Project?
 
-Context-aware rewriting using Mistral-7B
-
-Multiple paraphrase suggestions per sentence
-
-Ensures rewritten content stays below plagiarism thresholds
-
-Stores rewritten content in MongoDB for audit and reuse
-
-
+✔ No cloud APIs  
+✔ No data leakage  
+✔ High-accuracy semantic detection  
+✔ Academic & research friendly  
+✔ Suitable for students, researchers, and content creators  
 
 ---
 
-🤖 AI Content Detection
+## 🚀 Features
 
-Sentence-wise AI-generated text detection
-
-Powered by Mistral-7B
-
-Displays:
-
-Per-sentence AI probability
-
-Overall AI-generated percentage
-
-
-Results stored in the aigenrel MongoDB collection
-
-
+### 🔍 Plagiarism Detection
+- Sentence-level plagiarism detection using **Sentence-BERT embeddings**
+- Web search integration for reference retrieval
+- **Cosine similarity-based matching**
+- Threshold-controlled similarity checks
+- Plagiarism percentage calculation
+- Highlighted matched sentences
 
 ---
 
-🖥️ Desktop GUI (Tkinter)
-
-Clean, minimal, and intuitive interface
-
-Dedicated modes:
-
-Plagiarism Check
-
-Plagiarism Removal
-
-AI Content Detection
-
-
-Structured, readable output panels
-
-
+### ✍️ Plagiarism Removal (Paraphrasing)
+- Context-aware paraphrasing using **Mistral-7B**
+- Multiple rewrite suggestions per sentence
+- Ensures rewritten content stays below plagiarism thresholds
+- Stores rewritten results in **MongoDB**
 
 ---
 
-🧱 System Architecture (High-Level)
-
-User Input
-   │
-   ▼
-Sentence Tokenization (NLTK)
-   │
-   ├──► Plagiarism Detection (SBERT + Cosine Similarity)
-   │
-   ├──► Paraphrasing Engine (Mistral-7B)
-   │
-   └──► AI Detection Module (Mistral-7B)
-   │
-   ▼
-MongoDB (Results Storage)
-   │
-   ▼
-Tkinter GUI (Visualization)
-
+### 🤖 AI Content Detection
+- Sentence-level AI content analysis
+- Detection powered by **Mistral-7B**
+- Displays sentence-wise and overall AI probability
+- Results stored in the `aigenrel` MongoDB collection
 
 ---
 
-📂 Project Structure
-
-PlagRemover/
-│── plagremover/
-│   │── master.py                 # Application entry point
-│   │── config.py                 # Configuration & database setup
-│   │── plagiarism_checker.py     # Plagiarism detection logic
-│   │── plagiarism_remover.py     # Paraphrasing engine
-│   │── ai_detector.py            # AI content detection module
-│   │── gui.py                    # Tkinter UI components
-│   │── requirements.txt          # Dependencies
-│   │── README.md                 # Documentation
-
+### 🖥️ Desktop GUI (Tkinter)
+- Clean and intuitive interface
+- Multiple operational modes:
+  - Plagiarism Check
+  - Plagiarism Removal
+  - AI Content Detection
+- Structured, readable result visualization
 
 ---
 
-⚙️ Installation & Setup
+## 🧰 Tech Stack
 
-1️⃣ Clone the Repository
+### 🔧 Core Technologies
 
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white&style=flat-square)
+![Tkinter](https://img.shields.io/badge/Tkinter-GUI-orange?style=flat-square)
+![MongoDB](https://img.shields.io/badge/MongoDB-Local_DB-green?logo=mongodb&logoColor=white&style=flat-square)
+![NLTK](https://img.shields.io/badge/NLTK-Text_Processing-yellow?style=flat-square)
+![PyTorch](https://img.shields.io/badge/PyTorch-ML_Framework-red?logo=pytorch&logoColor=white&style=flat-square)
+![Transformers](https://img.shields.io/badge/HuggingFace-Transformers-FFD21F?logo=huggingface&logoColor=black&style=flat-square)
+
+---
+
+### 🧠 Machine Learning Models
+
+![Mistral](https://img.shields.io/badge/Mistral--7B-LLM-purple?style=flat-square)
+![SentenceBERT](https://img.shields.io/badge/Sentence--BERT-all--MiniLM--L6--v2-blueviolet?style=flat-square)
+![CosineSimilarity](https://img.shields.io/badge/Similarity-Cosine_Matching-informational?style=flat-square)
+
+---
+
+### 🗄️ Storage & Privacy
+
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green?logo=mongodb&logoColor=white&style=flat-square)
+![LocalStorage](https://img.shields.io/badge/Storage-Local_Only-success?style=flat-square)
+![Privacy](https://img.shields.io/badge/Privacy-No_Cloud_APIs-critical?style=flat-square)
+
+---
+
+## 🧱 System Architecture
+
+### 🔲 High-Level Workflow
+┌──────────────────────────┐ │        User Input        │ │ (Text / File / Paste)   │ └─────────────┬────────────┘ ▼ ┌──────────────────────────┐ │  Text Preprocessing      │ │ (Tokenization - NLTK)   │ └─────────────┬────────────┘ ▼ ┌───────────────────────────────────────────┐ │            Analysis Layer                  │ │                                           │ │  ┌──────────────┐   ┌─────────────────┐  │ │  │ Plagiarism   │   │ AI Content      │  │ │  │ Detection    │   │ Detection       │  │ │  │ (SBERT)      │   │ (Mistral-7B)    │  │ │  └──────────────┘   └─────────────────┘  │ │                                           │ │        ┌────────────────────────┐         │ │        │ Paraphrasing Engine    │         │ │        │ (Mistral-7B)           │         │ │        └────────────────────────┘         │ └─────────────┬─────────────────────────────┘ ▼ ┌──────────────────────────┐ │      MongoDB Storage     │ │ (Results & Rewrites)    │ └─────────────┬────────────┘ ▼ ┌──────────────────────────┐ │     Tkinter GUI Output   │ │ (Visualized Results)    │ └──────────────────────────┘
+
+---
+
+### 🔲 Module Interaction Diagram
+
+┌──────────────────────┐ │      master.py       │ │  (Application Core)  │ └───────────┬──────────┘ ▼ ┌──────────────────────┐ │        gui.py        │ │   (Tkinter UI)       │ └─────┬────────┬───────┘ ▼        ▼ ┌──────────┐  ┌──────────────┐ │ plagiarism│  │ ai_detector  │ │ _checker  │  │ .py          │ │ .py       │  │ (Mistral)    │ └────┬──────┘  └──────┬───────┘ ▼                 ▼ ┌──────────────────────────┐ │ plagiarism_remover.py    │ │ (Paraphrasing - LLM)     │ └─────────────┬────────────┘ ▼ ┌──────────────────────────┐ │        MongoDB           │ │ (Local Persistence)     │ └──────────────────────────┘
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone Repository
+```bash
 git clone https://github.com/your-username/plag-remover.git
 cd plag-remover
 
-2️⃣ Create Virtual Environment (Recommended)
+2️⃣ Create Virtual Environment
 
 python -m venv vytavaran
 source vytavaran/bin/activate   # macOS/Linux
@@ -169,100 +135,17 @@ pip install -r requirements.txt
 
 mongod --dbpath "C:/data/db"
 
-5️⃣ Run the Application
+5️⃣ Run Application
 
 python plagremover/master.py
 
 
 ---
 
-🧪 Usage Workflow
+🔐 Security & Privacy
 
-📝 Plagiarism Check
-
-1. Paste or upload text
-
-
-2. Click Check Plagiarism
-
-
-3. View similarity percentage and matched sentences
-
-
-4. Proceed to paraphrasing if required
-
-
-
-
----
-
-🔄 Plagiarism Removal
-
-1. Select plagiarized sentences
-
-
-2. Click Remove Plagiarism
-
-
-3. Review AI-generated rewrites
-
-
-4. Copy final clean content
-
-
-
-
----
-
-🧠 AI Content Detection
-
-1. Paste or upload text
-
-
-2. Click Check AI Content
-
-
-3. Analyze sentence-wise AI probability
-
-
-4. Use results for compliance or review
-
-
-
-
----
-
-🛠️ Tech Stack
-
-Core Technologies
-
-Python
-
-Tkinter
-
-MongoDB
-
-NLTK
-
-PyTorch
-
-Transformers
-
-
-Models Used
-
-Mistral-7B – Paraphrasing & AI detection
-
-Sentence-BERT (all-MiniLM-L6-v2) – Semantic similarity detection
-
-
-
----
-
-🔐 Privacy & Security
-
-✔ 100% offline execution
-✔ No third-party APIs
+✔ Fully offline execution
+✔ No external APIs
 ✔ Local AI models
 ✔ Local database storage
 ✔ No personal data collection
@@ -274,13 +157,13 @@ Sentence-BERT (all-MiniLM-L6-v2) – Semantic similarity detection
 
 Multi-model paraphrasing comparison
 
-Academic citation and reference validation
+Academic citation validation
 
-Fine-tuned AI-detection models
+Fine-tuned AI detection models
 
 Multilingual support
 
-PDF & DOCX input support
+PDF / DOCX input support
 
 
 
@@ -296,11 +179,21 @@ Project Lead & Developer
 
 📜 License
 
-Licensed under the MIT License.
+This project is licensed under the MIT License.
 
 
 ---
 
 ⭐ Support the Project
 
-If you find this project useful or inspiring, please consider giving it a star ⭐ on GitHub.
+If you find this project useful, consider giving it a star ⭐ on GitHub.
+
+---
+
+If you want, I can next:
+- Convert diagrams into **SVG / PNG**
+- Add **screenshots & demo GIF section**
+- Optimize for **resume or research paper**
+- Create **GitHub profile banner**
+
+Just say the word.
