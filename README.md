@@ -170,10 +170,16 @@ PDF / DOCX input support
 
 ---
 
-👨‍💻 Author
+## 👨‍💻 Author
 
-Indrudge Panwar
-Project Lead & Developer
+**Indrudge Panwar**
+
+![Role](https://img.shields.io/badge/Role-Project_Lead-blue?style=flat-square)
+![Role](https://img.shields.io/badge/Role-Developer-green?style=flat-square)
+![Focus](https://img.shields.io/badge/Focus-AI_%26_ML-purple?style=flat-square)
+![Focus](https://img.shields.io/badge/Focus-Privacy_First-black?style=flat-square)
+
+*Architecting local-first AI solutions with academic integrity in mind.*
 
 
 ---
