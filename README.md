@@ -1,133 +1,306 @@
-Plagiarism Remover & AI Content Detector
-This project is a Plagiarism Removal & AI Content Detection System that utilizes LLM models to detect, rewrite, and improve text quality. It integrates Mistral-7B, Sentence Transformers, MongoDB, and Tkinter GUI to provide a seamless experience for users who want to check for plagiarism, rewrite content, and detect AI-generated text.
+🛡️ Plagiarism Remover & AI Content Detector
 
-📌 Features
-1. Plagiarism Detection
+     
 
-Sentence-level plagiarism detection using Sentence-BERT (SBERT) embeddings
-Web search integration to find reference texts
-Cosine similarity threshold-based matching
-Plagiarism percentage calculation
+> A fully local, privacy-focused plagiarism removal and AI content detection system powered by Large Language Models.
 
-2. Plagiarism Removal (Paraphrasing)
 
-Context-aware rewriting using Mistral LLM
-Multiple rewriting suggestions per sentence
-Ensures the rewritten content stays under a plagiarism threshold
-Stores rewritten texts in MongoDB for future analysis
 
-3. AI Content Detection
 
-Sentence-level analysis for AI-generated text
-Uses Mistral-7B for checking AI-written content
-Displays percentage of AI-generated content
-Stores results in the MongoDB aigenrel collection
+---
 
-4. GUI with Tkinter
+✨ Overview
 
-User-friendly interface to choose between different modes:
+Plagiarism Remover & AI Content Detector is an advanced desktop application designed to help users:
+
+Detect sentence-level plagiarism
+
+Rewrite and paraphrase content intelligently
+
+Identify AI-generated text
+
+Maintain academic integrity and originality
+
+
+Built using Mistral-7B, Sentence-BERT, MongoDB, and Tkinter, the system runs completely offline, ensuring full data privacy and control.
+
+
+---
+
+🎯 Why This Project?
+
+✔ No cloud APIs
+✔ No data leakage
+✔ High-accuracy semantic detection
+✔ Research-oriented & academic-friendly
+✔ Ideal for students, researchers, and content creators
+
+
+---
+
+🚀 Features
+
+🔍 Plagiarism Detection
+
+Sentence-level plagiarism analysis using SBERT embeddings
+
+Web search integration for reference retrieval
+
+Cosine similarity–based matching
+
+Configurable similarity thresholds
+
+Accurate plagiarism percentage calculation
+
+Highlighted matched content
+
+
+
+---
+
+✍️ Plagiarism Removal (Paraphrasing)
+
+Context-aware rewriting using Mistral-7B
+
+Multiple paraphrase suggestions per sentence
+
+Ensures rewritten content stays below plagiarism thresholds
+
+Stores rewritten content in MongoDB for audit and reuse
+
+
+
+---
+
+🤖 AI Content Detection
+
+Sentence-wise AI-generated text detection
+
+Powered by Mistral-7B
+
+Displays:
+
+Per-sentence AI probability
+
+Overall AI-generated percentage
+
+
+Results stored in the aigenrel MongoDB collection
+
+
+
+---
+
+🖥️ Desktop GUI (Tkinter)
+
+Clean, minimal, and intuitive interface
+
+Dedicated modes:
 
 Plagiarism Check
+
 Plagiarism Removal
+
 AI Content Detection
 
 
-Displays analysis results with a structured UI
+Structured, readable output panels
 
+
+
+---
+
+🧱 System Architecture (High-Level)
+
+User Input
+   │
+   ▼
+Sentence Tokenization (NLTK)
+   │
+   ├──► Plagiarism Detection (SBERT + Cosine Similarity)
+   │
+   ├──► Paraphrasing Engine (Mistral-7B)
+   │
+   └──► AI Detection Module (Mistral-7B)
+   │
+   ▼
+MongoDB (Results Storage)
+   │
+   ▼
+Tkinter GUI (Visualization)
+
+
+---
 
 📂 Project Structure
+
 PlagRemover/
 │── plagremover/
-│   │── master.py           # Main GUI file to run the application
-│   │── config.py           # Configuration settings & database connections
-│   │── plagiarism_checker.py   # Plagiarism detection module
-│   │── plagiarism_remover.py   # Plagiarism rewriting module
-│   │── ai_detector.py      # AI content detection module
-│   │── gui.py              # Tkinter GUI elements & layout
-│   │── requirements.txt    # Dependencies required to run the project
-│   │── README.md           # Project documentation (this file)
+│   │── master.py                 # Application entry point
+│   │── config.py                 # Configuration & database setup
+│   │── plagiarism_checker.py     # Plagiarism detection logic
+│   │── plagiarism_remover.py     # Paraphrasing engine
+│   │── ai_detector.py            # AI content detection module
+│   │── gui.py                    # Tkinter UI components
+│   │── requirements.txt          # Dependencies
+│   │── README.md                 # Documentation
 
 
+---
 
 ⚙️ Installation & Setup
-🔹 1. Clone the Repository
+
+1️⃣ Clone the Repository
+
 git clone https://github.com/your-username/plag-remover.git
 cd plag-remover
 
-🔹 2. Set Up Virtual Environment (Recommended)
-python -m venv vytavaran
-source vytavaran/bin/activate  # For macOS/Linux
-vytavaran\Scripts\activate     # For Windows
+2️⃣ Create Virtual Environment (Recommended)
 
-🔹 3. Install Dependencies
+python -m venv vytavaran
+source vytavaran/bin/activate   # macOS/Linux
+vytavaran\Scripts\activate      # Windows
+
+3️⃣ Install Dependencies
+
 pip install -r requirements.txt
 
-🔹 4. Start MongoDB
-Ensure MongoDB is running on localhost:27017 before proceeding.
+4️⃣ Start MongoDB
+
 mongod --dbpath "C:/data/db"
 
-🔹 5. Run the Application
+5️⃣ Run the Application
+
 python plagremover/master.py
 
 
-📝 Usage Guide
-🔹 Plagiarism Check
+---
 
-Upload or paste text into the input field.
-Click "Check Plagiarism" to analyze text against stored references.
-The results will show the plagiarism percentage and matched sentences.
-If plagiarism is detected, you can proceed to Plagiarism Removal.
+🧪 Usage Workflow
 
-🔹 Plagiarism Removal (Paraphrasing)
+📝 Plagiarism Check
 
-Select a Plagiarism Result from the previous check.
-Click "Remove Plagiarism" to generate rewritten text.
-The model will paraphrase sentences with high similarity.
-The final text will be saved and can be copied for use.
-
-🔹 AI Content Detection
-
-Paste or upload the text to check for AI generation.
-Click "Check AI Content" to analyze the text.
-The results will show AI-generated percentage per sentence and overall.
-This helps detect AI-written or paraphrased content.
+1. Paste or upload text
 
 
-🛠️ Technologies Used
-🔹 Programming Languages & Libraries
-
-Python (Core programming language)
-Tkinter (GUI framework)
-PyTorch & Transformers (Mistral LLM for AI analysis & rewriting)
-Sentence-BERT (SBERT for plagiarism detection)
-NLTK (Tokenization & text processing)
-MongoDB (Database for storing documents & results)
-
-🔹 Machine Learning Models
-
-Mistral-7B (Large Language Model for paraphrasing & AI detection)
-Sentence-BERT (all-MiniLM-L6-v2) (For sentence embeddings in plagiarism detection)
+2. Click Check Plagiarism
 
 
-🛡️ Security & Data Privacy
-
-Locally hosted AI models (No external API calls, ensuring privacy)
-MongoDB for local data storage (No cloud-based storage required)
-No personal data collection
+3. View similarity percentage and matched sentences
 
 
-🔧 Future Improvements
-✅ Better paraphrasing with multiple AI models
-✅ Advanced citation checking for academic writing
-✅ Fine-tuning the AI model for better detection
-✅ Support for multiple languages
+4. Proceed to paraphrasing if required
 
-👨‍💻 Contributors
 
-Indrudge Panwar (Project Lead & Developer)
 
+
+---
+
+🔄 Plagiarism Removal
+
+1. Select plagiarized sentences
+
+
+2. Click Remove Plagiarism
+
+
+3. Review AI-generated rewrites
+
+
+4. Copy final clean content
+
+
+
+
+---
+
+🧠 AI Content Detection
+
+1. Paste or upload text
+
+
+2. Click Check AI Content
+
+
+3. Analyze sentence-wise AI probability
+
+
+4. Use results for compliance or review
+
+
+
+
+---
+
+🛠️ Tech Stack
+
+Core Technologies
+
+Python
+
+Tkinter
+
+MongoDB
+
+NLTK
+
+PyTorch
+
+Transformers
+
+
+Models Used
+
+Mistral-7B – Paraphrasing & AI detection
+
+Sentence-BERT (all-MiniLM-L6-v2) – Semantic similarity detection
+
+
+
+---
+
+🔐 Privacy & Security
+
+✔ 100% offline execution
+✔ No third-party APIs
+✔ Local AI models
+✔ Local database storage
+✔ No personal data collection
+
+
+---
+
+🔮 Future Roadmap
+
+Multi-model paraphrasing comparison
+
+Academic citation and reference validation
+
+Fine-tuned AI-detection models
+
+Multilingual support
+
+PDF & DOCX input support
+
+
+
+---
+
+👨‍💻 Author
+
+Indrudge Panwar
+Project Lead & Developer
+
+
+---
 
 📜 License
-This project is open-source and follows the MIT License.
 
-⭐ If you like this project, please give it a star on GitHub!
+Licensed under the MIT License.
+
+
+---
+
+⭐ Support the Project
+
+If you find this project useful or inspiring, please consider giving it a star ⭐ on GitHub.
