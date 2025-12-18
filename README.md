@@ -121,25 +121,26 @@ The system integrates **Mistral-7B**, **Sentence-BERT**, **MongoDB**, and **Tkin
 ```bash
 git clone https://github.com/your-username/plag-remover.git
 cd plag-remover
+```
 
-2️⃣ Create Virtual Environment
-
+###2️⃣ Create Virtual Environment
+```bash
 python -m venv vytavaran
 source vytavaran/bin/activate   # macOS/Linux
 vytavaran\Scripts\activate      # Windows
-
-3️⃣ Install Dependencies
-
+```
+###3️⃣ Install Dependencies
+```bash
 pip install -r requirements.txt
-
-4️⃣ Start MongoDB
-
+```
+###4️⃣ Start MongoDB
+```bash
 mongod --dbpath "C:/data/db"
-
-5️⃣ Run Application
-
+```
+###5️⃣ Run Application
+```bash
 python plagremover/master.py
-
+```
 ---
 
 🔐 Security & Privacy
