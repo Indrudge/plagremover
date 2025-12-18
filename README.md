@@ -112,6 +112,7 @@ The system integrates **Mistral-7B**, **Sentence-BERT**, **MongoDB**, and **Tkin
 
 ┌──────────────────────┐ │      master.py       │ │  (Application Core)  │ └───────────┬──────────┘ ▼ ┌──────────────────────┐ │        gui.py        │ │   (Tkinter UI)       │ └─────┬────────┬───────┘ ▼        ▼ ┌──────────┐  ┌──────────────┐ │ plagiarism│  │ ai_detector  │ │ _checker  │  │ .py          │ │ .py       │  │ (Mistral)    │ └────┬──────┘  └──────┬───────┘ ▼                 ▼ ┌──────────────────────────┐ │ plagiarism_remover.py    │ │ (Paraphrasing - LLM)     │ └─────────────┬────────────┘ ▼ ┌──────────────────────────┐ │        MongoDB           │ │ (Local Persistence)     │ └──────────────────────────┘
 
+
 ---
 
 ## ⚙️ Installation & Setup
@@ -138,7 +139,6 @@ mongod --dbpath "C:/data/db"
 5️⃣ Run Application
 
 python plagremover/master.py
-
 
 ---
 
@@ -187,13 +187,3 @@ This project is licensed under the MIT License.
 ⭐ Support the Project
 
 If you find this project useful, consider giving it a star ⭐ on GitHub.
-
----
-
-If you want, I can next:
-- Convert diagrams into **SVG / PNG**
-- Add **screenshots & demo GIF section**
-- Optimize for **resume or research paper**
-- Create **GitHub profile banner**
-
-Just say the word.
